@@ -8,7 +8,7 @@
 namespace atlc {
     class Solver {
     public:
-        //todo: put useful functions here
+        //todo: put useful stuff
     };
 }
 

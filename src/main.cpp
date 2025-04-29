@@ -1,7 +1,16 @@
+#include "atlc_wrapper.h"
+
 #include <QApplication>
 #include <QPushButton>
 
 int main(int argc, char *argv[]) {
     QApplication app (argc, argv);
+
+    QPushButton button ("Hello world");
+    button.show();
     return app.exec();
+}
+
+void test() {
+    atlc::Solver solver;
 }
