@@ -16,6 +16,8 @@ set(CMAKE_AUTORCC ON)
 # List your source files here
 set(SOURCES
         src/main.cpp
+        atlc/include/atlc.h
+        src/atlc_wrapper.h
 )
 
 # Create the executable
