@@ -1,18 +1,25 @@
-cmake_minimum_required(VERSION 3.13)
-project(neotlc)
+cmake_minimum_required(VERSION 3.5)
+
+project(neotlc LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(GTKMM REQUIRED gtkmm-4.0)
+# Find Qt5
+find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-include_directories(${GTKMM_INCLUDE_DIRS})
-link_directories(${GTKMM_LIBRARY_DIRS})
-add_definitions(${GTKMM_CFLAGS_OTHER})
+# Enable automatic MOC, UIC, RCC
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
-file(GLOB SOURCES src/*.cpp)
+# List your source files here
+set(SOURCES
+        src/main.cpp
+)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+# Create the executable
+add_executable(${PROJECT_NAME} ${SOURCES})
 
-add_executable(neotlc ${SOURCES})
-target_link_libraries(neotlc ${GTKMM_LIBRARIES})
+# Link Qt5 libraries
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
