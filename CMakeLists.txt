@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(neotlc LANGUAGES C CXX)  # Add C here
+project(neotlc LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -32,6 +32,7 @@ target_link_libraries(atlc PUBLIC ${GSL_LINK_LIBRARIES})
 # Executable
 add_executable(neotlc
         src/main.cpp
+        src/atlc_wrapper.h
 )
 
 target_include_directories(neotlc PRIVATE
