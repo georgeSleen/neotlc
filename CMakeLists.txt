@@ -44,3 +44,8 @@ target_link_libraries(neotlc
         Qt5::Core
         Qt5::Widgets
 )
+
+set_target_properties(neotlc PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/bin
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/bin
+)
