@@ -1,34 +1,45 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.14)
 
-project(neotlc LANGUAGES CXX)
+project(neotlc LANGUAGES C CXX)  # Add C here
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTORCC ON)
+# GSL
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GSL REQUIRED gsl)
 
-# Add atlc source code
-file(GLOB ATLC_SRC "${CMAKE_CURRENT_SOURCE_DIR}/atlc/atlc-4.6.1/src/*.c")
-file(GLOB ATLC_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/atlc/include/atlc.h")
-file(GLOB ATLC_CONFIG "${CMAKE_CURRENT_SOURCE_DIR}/atlc/atlc-4.6.1/config.h")
+# Qt5
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets)
 
-add_library(atlc STATIC
-        ${ATLC_SRC}
-        ${ATLC_HEADER}
-        ${ATLC_CONFIG}
+# ATLC source files
+file(GLOB ATLC_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/atlc/atlc-4.6.1/src/*.c
 )
 
-# List source files here
-set(SOURCES
+add_library(atlc STATIC ${ATLC_SOURCES})
+
+target_include_directories(atlc PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/atlc/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/atlc/atlc-4.6.1
+        ${CMAKE_CURRENT_SOURCE_DIR}/atlc/atlc-4.6.1/src
+        ${GSL_INCLUDE_DIRS}
+)
+
+target_link_libraries(atlc PUBLIC ${GSL_LINK_LIBRARIES})
+
+# Executable
+add_executable(neotlc
         src/main.cpp
-        src/atlc_wrapper.h
 )
 
-# Create the executable
-add_executable(${PROJECT_NAME} ${SOURCES})
+target_include_directories(neotlc PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
+target_link_libraries(neotlc
+        atlc
+        Qt5::Core
+        Qt5::Widgets
+)
