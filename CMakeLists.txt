@@ -11,7 +11,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(GSL REQUIRED gsl)
 
 # Qt
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
 qt_standard_project_setup()
 
 # ATLC source files
@@ -34,8 +34,8 @@ target_link_libraries(atlc PUBLIC ${GSL_LINK_LIBRARIES})
 qt_add_executable(neotlc
         src/main.cpp
         src/atlc_wrapper.h
-        src/window.cpp
-        src/window.h
+        src/stackup_definition.cpp
+        src/stackup_definition.h
 )
 
 target_include_directories(neotlc PRIVATE
@@ -46,6 +46,7 @@ target_link_libraries(neotlc PUBLIC
         atlc
         Qt6::Core
         Qt6::Widgets
+        Qt6::Gui
 )
 
 set_target_properties(neotlc PROPERTIES
